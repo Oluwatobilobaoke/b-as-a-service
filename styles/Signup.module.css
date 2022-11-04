@@ -1,18 +1,34 @@
 .container {
-  color: #d8d8d8;
+  width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.home {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30rem;
+  height: 30rem;
+  border: 1px solid #d8d8d8;
+  border-radius: 0.4rem;
+}
+
+.input {
+  width: 80%;
+  height: 2rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border: 1px solid #f35815;
+  border-radius: 0.4rem;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+}
 .button {
   border: 1px solid #f35815;
   background-color: transparent;
@@ -21,33 +37,9 @@
   border-radius: 0.4rem;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  margin-top: 1.5rem;
-}
-
-.calculationHeading {
-  text-align: center;
   margin-top: 1rem;
 }
 
-.email {
-  color: #f35815;
-}
-
-.noCalulation {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-.loading {
-  color: #f35815;
-  margin-top: 1rem;
-}
-
-.loading {
-  text-align: center;
-  color: #d8d8d8;
-  height: 100vh;
+.button:hover {
+  transform: scale(1.1);
 }
