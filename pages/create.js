@@ -2,6 +2,7 @@ import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 import styles from "../styles/Create.module.css";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const Create = () => {
   const initialState = {
@@ -47,6 +48,14 @@ const Create = () => {
       //     },
       //   ])
       //   .single();
+
+      const response = axios.post("/calculation", {
+        expression,
+        user_id: user?.id,
+        
+      });
+
+      console.log(response);
       if (error) throw error;
       alert("Calculation created successfully");
       setCalculationData(initialState);
