@@ -1,6 +1,7 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
+const rootEndPoint = 'http://localhost:4000';
 
-module.exports = nextConfig
+module.exports = {
+    env: {
+        baseUrl: rootEndPoint,
+    },
+};

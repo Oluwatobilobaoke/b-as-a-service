@@ -26,9 +26,7 @@ const CalculationCard = ({ data, handleDelete }) => {
 
           <div className={styles.buttons}>
             <Link href={`/edit/${item.id}`}>
-              <a className={styles.edit}>
-                <FiEdit />
-              </a>
+              <FiEdit className={styles.edit} />
             </Link>
             <button
               onClick={() => handleDelete(item.id)}

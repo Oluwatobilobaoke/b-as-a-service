@@ -36,16 +36,17 @@ const Create = () => {
     try {
       const user = supabase.auth.user();
 
-      const { data, error } = await supabase
-        .from("calculations")
-        .insert([
-          {
-            expression,
-            result,
-            user_id: user?.id,
-          },
-        ])
-        .single();
+      // const { data, error } = await supabase
+      //   .from("calculations")
+      //   .insert([
+      //     {
+      //       expression,
+      //       result,
+      //       user_id: user?.id,
+      //       user_id: user?.email,
+      //     },
+      //   ])
+      //   .single();
       if (error) throw error;
       alert("Calculation created successfully");
       setCalculationData(initialState);

@@ -22,7 +22,7 @@ const Navbar = ({ session }) => {
           >
             Logout
           </button>
-          <Link href="/calculate">
+          <Link href="/create">
             <button className={styles.buttons}>Calculate</button>
           </Link>
           <Link href="/history">

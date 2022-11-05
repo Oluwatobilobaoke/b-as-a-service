@@ -9,27 +9,22 @@ export default function Home({ session }) {
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // console.log(session);
 
   useEffect(() => {
-    if (session?.user) {
-      if (loading) {
-        return <div className={styles.loading}>Fetching Calculations...</div>;
-      }
-      fetchCalculations();
-    }
+    session?.user && fetchCalculations();
   }, []);
 
   const fetchCalculations = async () => {
     try {
       setLoading(true);
       const user = supabase.auth.user();
+ 
       let { data, error, status } = await supabase
         .from("calculations")
         .select("*")
         .eq("user_id", user?.id)
         .order("inserted_at", { ascending: false });
-      
+
       console.log(data);
       if (error && status !== 406) {
         throw error;
@@ -76,7 +71,11 @@ export default function Home({ session }) {
                 <p className={styles.calculationHeading}>
                   Here are your calculations
                 </p>
-                <CalculationCard data={calculations} />
+                {session?.user && loading ? (
+                  <div className={styles.loading}>Fetching Calculations...</div>
+                ) : (
+                  <CalculationCard data={calculations} />
+                )}
               </div>
             )}
           </div>
