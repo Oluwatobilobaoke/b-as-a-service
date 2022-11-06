@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/.history/
 
 # testing
 /coverage
@@ -36,3 +37,4 @@ yarn-error.log*
 next-env.d.ts
 
 .env.local
+./history

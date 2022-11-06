@@ -11,12 +11,12 @@ const Create = () => {
   };
 
   const router = useRouter();
-
   const [loggedIn, setloggedIn] = useState(null);
-
   const [calculationData, setCalculationData] = useState(initialState);
-
   const { expression, result } = calculationData;
+  const [calculationResult, setCalculationResult] = useState("");
+  const [calculatedExpression, setCalculatedExpression] = useState("");
+  const [calculating, setCalculating] = useState(false);
 
   const handleChange = (e) => {
     setCalculationData({ ...calculationData, [e.target.name]: e.target.value });
@@ -28,14 +28,20 @@ const Create = () => {
 
   async function checkUserLoggedIn() {
     const user = supabase.auth.user();
+    // console.log("user", user);
     if (!user) {
       router.push("/login");
     }
   }
 
   const createCalculation = async () => {
+    if (!expression) {
+      alert("Please enter an expression");
+      return;
+    }
     try {
       const user = supabase.auth.user();
+      setCalculating(true);
 
       // const { data, error } = await supabase
       //   .from("calculations")
@@ -49,19 +55,23 @@ const Create = () => {
       //   ])
       //   .single();
 
-      const response = axios.post("/calculation", {
+      const response = await axios.post("/calculation", {
         expression,
         user_id: user?.id,
-        
       });
 
-      console.log(response);
-      if (error) throw error;
-      alert("Calculation created successfully");
+      // if (error) throw error;
+      // alert("Calculation created successfully");
+      setCalculatedExpression(expression);
       setCalculationData(initialState);
-      router.push("/");
+      setCalculationResult(response.data);
+
+      // router.push("/");
     } catch (error) {
-      alert(error.message);
+      alert(error?.response?.message || "An error occured");
+      // console.log("err.response", error.response);
+    } finally {
+      setCalculating(false);
     }
   };
 
@@ -70,7 +80,7 @@ const Create = () => {
       <div className={styles.container}>
         <div className={styles.form}>
           <p className={styles.expression}>Create a New Calculation</p>
-          <label className={styles.label}>Expression:</label>
+          <label className={styles.label}>Enter expression (e.g. 3 * 5):</label>
           <input
             type="text"
             name="expression"
@@ -80,10 +90,30 @@ const Create = () => {
             placeholder="Enter your expression"
           />
 
-          <button className={styles.button} onClick={createCalculation}>
-            Calculate
+          <button
+            className={styles.button}
+            disabled={calculating}
+            onClick={createCalculation}
+          >
+            {calculating ? "Calculating" : "Calculate"}
           </button>
         </div>
+
+        {calculationResult && (
+          <div className={styles.answer}>
+            {/* <p className={styles.expression}>Answer</p> */}
+            <label className={styles.label2}>Answer:</label>
+            <input
+              type="text"
+              name="expression"
+              value={`${calculatedExpression} = ${calculationResult}`}
+              onChange={handleChange}
+              className={styles.input2}
+              // placeholder="Enter your expression"
+              disabled={true}
+            />
+          </div>
+        )}
       </div>
     </>
   );

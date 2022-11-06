@@ -11,29 +11,47 @@ import { NotificationManager } from "react-notifications";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [token, setToken] = useState("");
 
   const [session, setSession] = useState(null);
   // const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem("baas_token");
+    console.log("token", token);
+    setToken(token);
+
+    if (token && token !== "undefined") {
+      console.log("ndncncncn", typeof token);
+      axios.defaults.baseURL = rootEndPoint;
+      axios.defaults.headers = {
+        authorization: `Bearer ${JSON?.parse(token)}`,
+        "content-type": "application/json",
+      };
+    }
+    // console.log("routetrrr", router);
+
+    const currentSession = supabase.auth.session();
+
     setSession(supabase.auth.session());
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-    const currentSession = supabase.auth.session();
-    if (!currentSession) {
+    setSession(currentSession);
+    const currentUser = supabase.auth.user();
+    if (!currentSession && router.asPath !== "/") {
       router.push("/login");
     }
-    localStorage.setItem("user", JSON.stringify(currentSession?.user));
+    localStorage.setItem("user", JSON?.stringify(currentSession?.user));
     localStorage.setItem(
       "baas_token",
-      JSON.stringify(currentSession.access_token)
+      JSON.stringify(currentSession?.access_token)
     );
-    axios.defaults.baseURL = rootEndPoint;
-    axios.defaults.headers = {
-      authorization: `Bearer ${localStorage.getItem("baas_token")}`,
-      "content-type": "application/json",
-    };
+
+    // console.log(
+    //   "local storajdjdjge",
+    //   JSON.parse(localStorage.getItem("baas_token"))
+    // );
     axios.interceptors.response.use(
       (res) => Promise.resolve(res),
       (err) => {
@@ -41,7 +59,7 @@ function MyApp({ Component, pageProps }) {
           NotificationManager.error("Check your network connection");
         }
 
-        console.log({err});
+        console.log({ err });
 
         if (err.response.statusCode === 401 && router.pathname !== "/login") {
           setTimeout(() => {
@@ -60,7 +78,8 @@ function MyApp({ Component, pageProps }) {
   }, []);
   return (
     <div>
-      <Navbar session={session} />
+      <Navbar />
+      {/* {console.log("the session is", session)} */}
       <Component {...pageProps} session={session} />
       <Footer />
     </div>

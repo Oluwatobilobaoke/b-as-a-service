@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../utils/supabase";
 import styles from "../styles/Signup.module.css";
+import { useRouter } from "next/router";
 
 const Signup = () => {
   const initialState = {
     email: "",
     password: "",
   };
+
+  const router = useRouter();
 
   const [form, setForm] = useState(initialState);
 
@@ -24,7 +27,7 @@ const Signup = () => {
     const user = supabase.auth.user();
     console.log(user);
     if (user) {
-      router.push("/");
+      router.push("/create");
     }
   }
 

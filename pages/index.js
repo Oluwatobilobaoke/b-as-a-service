@@ -4,11 +4,23 @@ import styles from "../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
 import CalculationCard from "../components/CalculationCard";
+import { useRouter } from "next/router";
 
 export default function Home({ session }) {
   const [calculations, setCalculations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
+
+  async function checkUserLoggedIn() {
+    const user = supabase.auth.user();
+    if (user) {
+      router.push("/history");
+    }
+  }
 
   useEffect(() => {
     session?.user && fetchCalculations();
@@ -18,7 +30,7 @@ export default function Home({ session }) {
     try {
       setLoading(true);
       const user = supabase.auth.user();
- 
+
       let { data, error, status } = await supabase
         .from("calculations")
         .select("*")

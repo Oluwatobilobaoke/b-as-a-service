@@ -1,10 +1,25 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import styles from "../styles/Navbar.module.css";
 import { supabase } from "../utils/supabase";
 
-const Navbar = ({ session }) => {
+const Navbar = ({ token }) => {
+  const [session, setSession] = useState();
+  const router = useRouter();
+  useEffect(() => {
+    const currentSession = supabase.auth.session();
+
+    if (currentSession) {
+      setSession(currentSession);
+    } else {
+      setSession(null);
+    }
+  });
+  // const session = ;
   return (
     <div className={styles.container}>
+      {console.log("tokejejej", token)}{" "}
       <div>
         <Link href="/">
           <p className={styles.title}>BAAS</p>
@@ -18,7 +33,10 @@ const Navbar = ({ session }) => {
 
           <button
             className={styles.buttons}
-            onClick={() => supabase.auth.signOut()}
+            onClick={() => {
+              supabase.auth.signOut();
+              router.push("/login");
+            }}
           >
             Logout
           </button>

@@ -1,6 +1,6 @@
 .container {
   color: #d8d8d8;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,18 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   margin-top: 1.5rem;
+}
+
+.button {
+  border: none;
+  background-color: #f35815;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 2rem;
+  margin-left: auto;
 }
 
 .calculationHeading {

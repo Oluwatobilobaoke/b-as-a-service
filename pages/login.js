@@ -19,16 +19,16 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-    useEffect(() => {
-      checkUserLoggedIn();
-    }, []);
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
 
-    async function checkUserLoggedIn() {
-      const user = supabase.auth.user();
-      if (user) {
-        router.push("/");
-      }
+  async function checkUserLoggedIn() {
+    const user = supabase.auth.user();
+    if (user) {
+      router.push("/create");
     }
+  }
 
   return (
     <div className={styles.container}>
